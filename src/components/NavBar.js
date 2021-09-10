@@ -6,6 +6,7 @@ export default function NavBar() {
         <div className="navbar">
             <ul>
                 <Link  className="link" to="/">Take Me Home</Link>
+                <Link className="link" to="/nasaphoto" onClick={() => window.location.reload()}>Get new Photo</Link>
             </ul>
         </div>
     )

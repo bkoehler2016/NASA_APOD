@@ -12,7 +12,7 @@ function App() {
    
    <div className="app">
      <Route component={Home} path="/" exact />
-     <Route component={NasaPhoto} path="/nasaphoto" />
+     <Route component={NasaPhoto} path="/nasaphoto" limit={1}/>
    </div>
    </BrowserRouter>
   );
