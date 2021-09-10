@@ -13,12 +13,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NasaPhoto({limit}) {
+export default function NasaPhoto() {
   const classes = useStyles()
     const [photoData, setPhotoData] = useState({})
 
 
       const [like, setLike] = useState(0)
+
+      useEffect(() => {
+        setLike(JSON.parse(window.localStorage.getItem('like')));
+      }, []);
+    
+      useEffect(() => {
+        window.localStorage.setItem('like', like);
+      }, [like]);
+
+      
+      const increaseLike = () => {
+        return setLike(like + 1);
+      }
+      const decreaseLike = () => {
+        return setLike(like - 1)
+      }
       
 
       useEffect(() => {
@@ -56,13 +72,10 @@ export default function NasaPhoto({limit}) {
                  <p className="date">{photoData.date}</p>
                  <p className="explanation">{photoData.explanation}</p>
 
-                 <Button variant="contained" color="primary" className={classes.button} startIcon={<FavoriteIcon />} onClick={() => {
-                   setLike(like + 1 )
-                 }}>Like {like}</Button>
+                 <Button variant="contained" color="primary" className={classes.button} startIcon={<FavoriteIcon />} 
+                 onClick={increaseLike}>Like {like}</Button>
                  
-                 <Button variant="contained" color="secondary" className={classes.button} onClick={() => {
-                   setLike(like - 1 )
-                 }}>Unlike</Button>
+                 <Button variant="contained" color="secondary" className={classes.button} onClick={decreaseLike}>Unlike</Button>
              </div>
              
         </div>
