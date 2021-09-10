@@ -1,27 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import NavBar from './NavBar';
+import { makeStyles } from '@material-ui/core/styles';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import Button from '@material-ui/core/Button';
 import axios from 'axios';
 
 const apiKey = process.env.REACT_APP_NASA_KEY;
 
+const useStyles = makeStyles((theme) => ({
+  button: {
+    margin: theme.spacing(1),
+  },
+}));
+
 export default function NasaPhoto({limit}) {
+  const classes = useStyles()
     const [photoData, setPhotoData] = useState({})
 
-    function randomNum(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-      }
-    
-      const randomDate = `${randomNum(2000, 2021)}-${randomNum(1, 12)}-${randomNum(
-        1,
-        28
-      )}`;
-      console.log(randomNum(2000, 2021));
 
+      const [like, setLike] = useState(0)
+      
 
       useEffect(() => {
         axios
           .get(
-            `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&date=${randomDate}`
+            `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`
           )
           .then(response => {
             console.log(response.data);
@@ -52,7 +55,16 @@ export default function NasaPhoto({limit}) {
                  <h1>{photoData.title}</h1>
                  <p className="date">{photoData.date}</p>
                  <p className="explanation">{photoData.explanation}</p>
+
+                 <Button variant="contained" color="primary" className={classes.button} startIcon={<FavoriteIcon />} onClick={() => {
+                   setLike(like + 1 )
+                 }}>Like {like}</Button>
+                 
+                 <Button variant="contained" color="secondary" className={classes.button} onClick={() => {
+                   setLike(like - 1 )
+                 }}>Unlike</Button>
              </div>
+             
         </div>
         </>
     )
